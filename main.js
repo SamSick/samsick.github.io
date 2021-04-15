@@ -930,7 +930,8 @@ class DashboardComponent {
             this.tag_count = Object(class_transformer__WEBPACK_IMPORTED_MODULE_2__["plainToClass"])(_models_model_interfaces__WEBPACK_IMPORTED_MODULE_1__["Tag"], json);
             tags = +this.tag_count.response.value;
             this.barChartData = [user, posts, tags];
-            const test_response = yield this.http.get("https://developer.community.boschrexroth.com/search?q=SELECT%20count(*)%20FROM%20messages").toPromise();
+            //Test REST-API access from github pages
+            const test_response = yield this.http.get("https://developer.community.boschrexroth.com/search?q=SELECT%20count(*)%20FROM%20messages").toPromise().catch(error => error.message);
             console.log(test_response);
         });
     }
