@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Git\ctrlX_Automation_Community_Overview\src\polyfills.ts */"hN/g");
+module.exports = __webpack_require__(/*! C:\Git\ctrlx-automation-community-rest-api-testframe\src\polyfills.ts */"hN/g");
 
 
 /***/ }),

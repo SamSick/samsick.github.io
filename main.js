@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Git\ctrlX_Automation_Community_Overview\src\main.ts */"zUnb");
+module.exports = __webpack_require__(/*! C:\Git\ctrlx-automation-community-rest-api-testframe\src\main.ts */"zUnb");
 
 
 /***/ }),
@@ -335,6 +335,7 @@ class UserComponent {
         this.displayedColumns = ["subject", "board", "posted", "replies", "solved", "link"];
         this.not_found = false;
     }
+    //Initialize Component
     ngOnInit() {
         this.http.get(base_url + "search?q=SELECT%20login,%20id,%20view_href,%20online_status,%20avatar%20FROM%20users%20LIMIT%20100").subscribe(res => {
             this.response = res;
@@ -351,6 +352,7 @@ class UserComponent {
             }
         });
     }
+    //Get size of posts of every user to display
     getPostsSizePerUser() {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             for (var i = 0; i < this.all_users.length; i++) {
@@ -359,6 +361,7 @@ class UserComponent {
             }
         });
     }
+    //Show only the user per page limited by the size and the index of the paginator
     requestUser(size, index) {
         this.users = [];
         var n = 0;
@@ -367,6 +370,7 @@ class UserComponent {
             n++;
         }
     }
+    //Search Posts for the given user and load the result into the table
     searchPostsPerUser() {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             this.http.get(base_url + "search?q=SELECT%20login,%20id%20FROM%20users%20WHERE%20login='" + this.inputValue + "'").subscribe(res => {
@@ -425,16 +429,21 @@ class UserComponent {
             this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_1__["MatTableDataSource"](this.messages_per_user);
         });
     }
+    //Search posts per user on enter
     keyDown(event) {
         if (event.keyCode === 13) {
             this.searchPostsPerUser();
         }
     }
+    //Clear user input field
     clearUser() {
         this.inputValue = '';
         this.selected_user = undefined;
         this.not_found = false;
     }
+    //Search for a single user
+    //needs to be completed!!
+    //!!!
     onSubmit() {
         console.log("Submit successful!");
         console.log(this.input_search_user);
@@ -563,14 +572,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Message", function() { return Message; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Tag", function() { return Tag; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Tag_Child", function() { return Tag_Child; });
+//User class to be processed in the rest queries
 class User {
 }
+//Default Khoros REST API Response
+//Depending on the returned items the items are defined either as user, message or tags (see other classes)
 class Li_Response {
 }
+//Post class to be processed in the rest queries
 class Message {
 }
+//Tag class to be processed in the rest queries
 class Tag {
 }
+//Tag Child class to be processed in the rest queries
+//Corresponds to the tag array of the tag class
 class Tag_Child {
 }
 
@@ -682,9 +698,11 @@ class PostsComponent {
         this.inputValue = "";
         this.not_found = false;
     }
+    //Initialize the component
     ngOnInit() {
         this.getMessages();
     }
+    //Get the latest posts
     getMessages() {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             this.messages_ready = false;
@@ -725,10 +743,14 @@ class PostsComponent {
             }
         });
     }
+    //Clear the input field of the search form
     clearTitle() {
         this.inputValue = "";
         this.not_found = false;
     }
+    //Search for a specific post
+    //Needs to be completed!!
+    //!!!
     searchPost() {
         if (this.inputValue == "")
             alert("Please enter a post title!");
@@ -850,6 +872,7 @@ class DashboardComponent {
         this.all_users = 0;
         this.tags = [];
     }
+    //Initialize the component
     ngOnInit() {
         this.http.get(base_url + "search?q=SELECT%20count(*)%20FROM%20users%20WHERE%20online_status='online'").subscribe(res => {
             this.response = res;
@@ -871,6 +894,7 @@ class DashboardComponent {
         this.getTags();
         this.getBarChartData();
     }
+    //Get the most used tags of the community
     getTags() {
         this.http.get("https://community.khoros.com/restapi/vc/tagging/tags/all?page_size=1000", { responseType: "text" }).subscribe(res => {
             const parser = new DOMParser();
@@ -888,6 +912,7 @@ class DashboardComponent {
             }
         });
     }
+    //Get size of posts, user and tags to display these data in the Barchart
     getBarChartData() {
         return Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"])(this, void 0, void 0, function* () {
             var user = 0;
@@ -1287,6 +1312,7 @@ class AppComponent {
             this.scrollButton.nativeElement.style.display = "block";
         }
     }
+    //Scroll automatically to the top of the page
     goToTop() {
         this.content.nativeElement.scrollTop = 0;
         this.scrollButton.nativeElement.style.display = "none";
@@ -1809,8 +1835,9 @@ class TagsComponent {
     }
     //remove Tags from the tag list and the tag array
     removeTag(event) {
-        event.path[3].remove();
-        var text = event.path[3].childNodes[1].data.substring(1);
+        var element = event.currentTarget.parentElement;
+        element.remove();
+        var text = element.childNodes[1].data.substring(1);
         text = text.slice(0, -1);
         for (var i = 0; i < this.tags.length; i++) {
             if (this.tags[i] === text) {
